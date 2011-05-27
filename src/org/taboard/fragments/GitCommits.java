@@ -23,7 +23,7 @@ import android.widget.ArrayAdapter;
 public class GitCommits extends ListFragment{
 	
 	private static final String TAG = "gitcommits";
-	private String URL = "http://github.com/api/v2/json/commits/list/mojombo/grit/master";
+	private String URL = "http://github.com/api/v2/json/commits/list/fdiotalevi/taboard/master";
 	
 	@Override
 	public void onAttach(Activity activity) {
