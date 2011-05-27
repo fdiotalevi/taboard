@@ -1,4 +1,4 @@
-package org.taboard.fragments;
+package org.taboard.source.git;
 
 import java.util.List;
 

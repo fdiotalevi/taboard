@@ -1,4 +1,4 @@
-package org.taboard.fragments;
+package org.taboard.source.git;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,8 +18,6 @@ import android.app.Activity;
 import android.app.ListFragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ArrayAdapter;
 
 public class GitCommits extends ListFragment{
 	
@@ -85,7 +83,7 @@ public class GitCommits extends ListFragment{
 			}
 			
 		     protected void onPostExecute(List<Commit> commits) {
-		    	 setListAdapter(new CommitListAdapter(this.getActivity(), R.layout.commit, commits));
+		    	 GitCommits.this.setListAdapter(new CommitListAdapter(GitCommits.this.getActivity(), R.layout.commit, commits));
 		     }
 	
    			
