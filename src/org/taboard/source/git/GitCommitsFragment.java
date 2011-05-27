@@ -19,7 +19,7 @@ import android.app.ListFragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-public class GitCommits extends ListFragment{
+public class GitCommitsFragment extends ListFragment{
 	
 	private static final String TAG = "gitcommits";
 	private String URL = "http://github.com/api/v2/json/commits/list/fdiotalevi/taboard/master";
@@ -83,7 +83,7 @@ public class GitCommits extends ListFragment{
 			}
 			
 		     protected void onPostExecute(List<Commit> commits) {
-		    	 GitCommits.this.setListAdapter(new CommitListAdapter(GitCommits.this.getActivity(), R.layout.commit, commits));
+		    	 GitCommitsFragment.this.setListAdapter(new CommitListAdapter(GitCommitsFragment.this.getActivity(), R.id.commitMessage, commits));
 		     }
 	
    			

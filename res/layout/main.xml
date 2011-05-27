@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <fragment android:name="org.taboard.fragments.GitCommits"
+    <fragment android:name="org.taboard.source.git.GitCommitsFragment"
             android:id="@+id/list"
             android:layout_width="match_parent" android:layout_height="match_parent" />
 </LinearLayout>
