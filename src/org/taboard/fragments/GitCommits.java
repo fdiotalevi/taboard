@@ -12,6 +12,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.taboard.R;
 
 import android.app.Activity;
 import android.app.ListFragment;
@@ -38,9 +39,6 @@ public class GitCommits extends ListFragment{
         
         getCommitList();
         
-        // Populate list with our static array of titles.
-        setListAdapter(new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_activated_1, new String[] {"1", "2", "3"}));
                 
     }
    
@@ -52,6 +50,7 @@ public class GitCommits extends ListFragment{
 			protected List<Commit> doInBackground(String... params) {
 				HttpClient client = new DefaultHttpClient();
 		   		HttpGet get = new HttpGet(params[0]);
+		   		List<Commit> output = new ArrayList<Commit>();
 		   		
 		   		try {
 		   			BasicResponseHandler handler = new BasicResponseHandler();
@@ -62,7 +61,7 @@ public class GitCommits extends ListFragment{
 										
 					JSONArray commitArray = commits.getJSONArray("commits");
 					
-					List<Commit> output = new ArrayList<Commit>();
+					
 					
 					for (int i = 0; i < commitArray.length(); i++) {
 						output.add(new Commit((JSONObject) commitArray.get(i)));
@@ -82,15 +81,17 @@ public class GitCommits extends ListFragment{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				return null;
+				return output;
 			}
+			
+		     protected void onPostExecute(List<Commit> commits) {
+		    	 setListAdapter(new CommitListAdapter(this.getActivity(), R.layout.commit, commits));
+		     }
 	
    			
    		};
    		
    		task.execute(URL);
-   		
-   		
    		
    		
    	}
