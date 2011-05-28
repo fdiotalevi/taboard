@@ -3,9 +3,9 @@ package org.taboard.config;
 import android.app.Activity;
 import android.app.Fragment;
 
-public interface SourceConfig {
+public interface SourceConfig<T extends Fragment> {
 
-	Fragment createFragment(Activity activity);
+	T createFragment(Activity activity);
 
 	String getTag();
 

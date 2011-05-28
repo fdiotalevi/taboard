@@ -133,11 +133,11 @@ public class GridLayout extends ViewGroup {
                 final int column = i % columns;
                 final int row = i / columns;
 
-                int childLeft = paddingLeft + column * columnWidth;
-                int childTop = paddingTop + row * rowHeight;
+                int childLeft = paddingLeft + column * columnWidth + 5;
+                int childTop = paddingTop + row * rowHeight + 5;
 
-                child.layout(childLeft, childTop, childLeft + child.getMeasuredWidth(),
-                        childTop + child.getMeasuredHeight());
+                child.layout(childLeft, childTop, childLeft + child.getMeasuredWidth() - 5,
+                        childTop + child.getMeasuredHeight() - 5);
             }
         }
     }

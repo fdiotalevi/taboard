@@ -5,13 +5,15 @@ import java.util.List;
 import org.taboard.R;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 
-public class CommitListAdapter extends ArrayAdapter<Commit>{
+public class CommitListAdapter extends ArrayAdapter<Commit> implements Filterable{
 
 	public CommitListAdapter(Context context, int textViewResourceId, List<Commit> objects) {
 		super(context, R.layout.commit_row, textViewResourceId, objects);
@@ -29,8 +31,7 @@ public class CommitListAdapter extends ArrayAdapter<Commit>{
 		((TextView)row.findViewById(R.id.commitMessage)).setText(item.message);
 		
 		return row;
-	}
-
+	}	
 	
 	
 }
