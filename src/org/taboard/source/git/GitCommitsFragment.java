@@ -27,7 +27,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class GitCommitsFragment extends ListFragment implements FilterableFragment {
+public class GitCommitsFragment extends ListFragment implements
+		FilterableFragment {
 
 	private static final String TAG = "gitcommits";
 	private GitSourceConfig mSc;
@@ -116,21 +117,29 @@ public class GitCommitsFragment extends ListFragment implements FilterableFragme
 		filter.putString(
 				"email",
 				((CommitListAdapter) l.getAdapter()).getItem(position).authorEmail);
-		
-		mSourceManager.doFilter(ContactFilterable.class, filter);		
+
+		mSourceManager.doFilter(ContactFilterable.class, filter);
 	}
 
 	public void onFilterChanged() {
-		String emailFilter = mSc.getCurrentFilter().getString("email");
-		List<Commit> filteredCommits = new ArrayList<Commit>();
-		for (Commit c: mCommits){
-			if (c.authorEmail.equalsIgnoreCase(emailFilter)){
-				filteredCommits.add(c);
+		Bundle filter = mSc.getCurrentFilter();
+		List<Commit> filteredCommits;
+		if (filter != null) {
+			String emailFilter = filter.getString("email");
+			filteredCommits = new ArrayList<Commit>();
+			for (Commit c : mCommits) {
+				if (c.authorEmail.equalsIgnoreCase(emailFilter)) {
+					filteredCommits.add(c);
+				}
 			}
+		} else {
+			filteredCommits = mCommits;
 		}
-		getListView().setAdapter(new CommitListAdapter(getActivity(), R.id.commitMessage, filteredCommits));
 		
+		getListView().setAdapter(
+				new CommitListAdapter(getActivity(), R.id.commitMessage,
+						filteredCommits));
+
 	}
-	
 
 }
