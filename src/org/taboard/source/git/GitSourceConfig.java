@@ -8,7 +8,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 
 public class GitSourceConfig implements SourceConfig<GitCommitsFragment>, ContactFilterable {
-	private String mUrl;
+	private String mProject;
 	private String mName;
 	private Bundle mCurrentFilter;
 
@@ -17,8 +17,8 @@ public class GitSourceConfig implements SourceConfig<GitCommitsFragment>, Contac
 		
 	}
 	
-	public GitSourceConfig(String url, String name) {
-		mUrl = url;
+	public GitSourceConfig(String project, String name) {
+		mProject = project;
 		mName = name;		
 	}
 
@@ -39,7 +39,13 @@ public class GitSourceConfig implements SourceConfig<GitCommitsFragment>, Contac
 	}
 
 	public String getUrl() {
-		return mUrl;
+		return "http://github.com/api/v2/json/commits/list/" + mProject +"/master";
+	}
+	public String getName(){
+		return mName;
+	}
+	public String getProject(){
+		return mProject;
 	}
 
 	public void setCurrentFilter(Bundle filter) {

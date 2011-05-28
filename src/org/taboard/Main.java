@@ -30,19 +30,19 @@ import android.view.View;
 
 public class Main extends Activity implements SourceManager {
 
-	
 	// also check arrays.xml for labels
-	private static final Class[] SOURCE_CONFIGS = new Class[]{GitSourceConfig.class, //
-		GoogleCodeIssueSourceConfig.class, //
-		ContactsSourceConfig.class, //
-		ChartsSourceConfig.class, GoogleSourceConfig.class};	
+	private static final Class[] SOURCE_CONFIGS = new Class[] {
+			GitSourceConfig.class, //
+			GoogleCodeIssueSourceConfig.class, //
+			ContactsSourceConfig.class, //
+			ChartsSourceConfig.class, GoogleSourceConfig.class };
 
 	private final Handler mHandler = new Handler();
 
 	List<SourceConfig> mSources;
 
-	private String URL1 = "http://github.com/api/v2/json/commits/list/fdiotalevi/taboard/master";
-	private String URL2 = "http://github.com/api/v2/json/commits/list/openintents/aainterfaces/master";
+	private final static String PROJECT1 = "fdiotalevi/taboard";
+	private final static String PROJECT2 = "openintents/aainterfaces";
 
 	private View mActionBarView;
 
@@ -64,8 +64,8 @@ public class Main extends Activity implements SourceManager {
 		bar.setDisplayShowHomeEnabled(true);
 
 		mSources = new ArrayList<SourceConfig>();
-		mSources.add(new GitSourceConfig(URL1, "Taboard"));
-		mSources.add(new GitSourceConfig(URL2, "Open Android Apps"));
+		mSources.add(new GitSourceConfig(PROJECT1, "Taboard"));
+		mSources.add(new GitSourceConfig(PROJECT2, "Open Android Apps"));
 		mSources.add(new GoogleCodeIssueSourceConfig(
 				"http://code.google.com/p/openintents/issues/csv", "OpenIntent"));
 		mSources.add(new ContactsSourceConfig(null));
@@ -154,7 +154,7 @@ public class Main extends Activity implements SourceManager {
 			item.setChecked(true);
 			return true;
 		case R.id.menu_layout_2x3:
-			setLayout( 2, 3);
+			setLayout(2, 3);
 			item.setChecked(true);
 			return true;
 		case R.id.menu_layout_3x3:
@@ -185,16 +185,15 @@ public class Main extends Activity implements SourceManager {
 		// Show the dialog.
 		newFragment.show(ft, "dialog");
 	}
-	
-	
+
 	void showSourceChooser() {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 
 		DialogFragment newFragment = new SourceChooserDialogFragment();
-		
+
 		// Show the dialog.
 		newFragment.show(ft, "sourcechooserdialog");
-		
+
 	}
 
 	public void doFilter(Class<? extends Filterable> filterableClass,
@@ -229,6 +228,14 @@ public class Main extends Activity implements SourceManager {
 
 	}
 
+	public void deleteSource(SourceConfig sc) {
+		FragmentManager fm = getFragmentManager();
+		Fragment f = fm.findFragmentByTag(sc.getTag());
+		FragmentTransaction t = fm.beginTransaction();
+		t.remove(f);
+		t.commit();
+	}
+
 	public void addSource(int arrayIndex) {
 		FragmentTransaction t = getFragmentManager().beginTransaction();
 		SourceConfig sc;
@@ -243,6 +250,6 @@ public class Main extends Activity implements SourceManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 }

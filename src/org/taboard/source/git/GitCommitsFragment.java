@@ -16,6 +16,7 @@ import org.taboard.Main;
 import org.taboard.R;
 import org.taboard.SourceManager;
 import org.taboard.filter.FilterableFragment;
+import org.taboard.source.git.GitCommitsFragment.GitCommitsConfigDialogFragment;
 import org.taboard.view.AboutDialogFragment;
 
 import android.app.AlertDialog;
@@ -28,9 +29,15 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ActionMode;
+import android.view.ActionMode.Callback;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -41,6 +48,9 @@ public class GitCommitsFragment extends ListFragment implements
 	private GitSourceConfig mSc;
 	private SourceManager mSourceManager;
 	protected List<Commit> mCommits;
+	private View mContentView;
+	protected ActionMode mCurrentActionMode;
+	
 
 	public GitCommitsFragment(GitSourceConfig sc, SourceManager sm) {
 		mSc = sc;
@@ -50,11 +60,25 @@ public class GitCommitsFragment extends ListFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.git_commit_list, null);
-		TextView tv = (TextView) view.findViewById(R.id.title);
+		mContentView = inflater.inflate(R.layout.git_commit_list, null);
+		TextView tv = (TextView) mContentView.findViewById(R.id.title);
 		tv.setText(mSc.getTitle());
 
-		return view;
+		
+		mContentView.setOnLongClickListener(new View.OnLongClickListener() {
+	            public boolean onLongClick(View view) {
+	                if (mCurrentActionMode != null) {
+	                    return false;
+	                }
+
+	                mCurrentActionMode = getActivity().startActionMode(
+	                        mContentSelectionActionModeCallback);
+	                mContentView.setSelected(true);
+	                return true;
+	            }
+	        });
+		 
+		return mContentView;
 
 	}
 
@@ -65,6 +89,8 @@ public class GitCommitsFragment extends ListFragment implements
 		getCommitList();
 
 	}
+	
+	
 
 	private void getCommitList() {
 
@@ -129,12 +155,29 @@ public class GitCommitsFragment extends ListFragment implements
 	}
 
 	
-	public class GitCommitsConfigDialogFragment extends DialogFragment {
+	public static class GitCommitsConfigDialogFragment extends DialogFragment {
 
+		
+		public static GitCommitsConfigDialogFragment newInstance(GitSourceConfig sc){
+			GitCommitsConfigDialogFragment result = new GitCommitsConfigDialogFragment();
+			Bundle arguments = new Bundle();
+			arguments.putString("project", sc.getProject());
+			arguments.putString("name", sc.getName());
+			result.setArguments(arguments );
+			return result;
+		}
+		
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View v = inflater.inflate(R.layout.gitcommits_config_dialog,container,false);
+
+			EditText et = (EditText) v.findViewById(R.id.edit_github_name);			
+			et.setText(getArguments().getString("name"));
+			
+			et = (EditText) v.findViewById(R.id.edit_github_project);			
+			et.setText(getArguments().getString("project"));
+			
 	        return v;			
 		}
 		
@@ -143,6 +186,7 @@ public class GitCommitsFragment extends ListFragment implements
 		
 			Dialog v = super.onCreateDialog(savedInstanceState);
 			v.setTitle(R.string.git_hub_config_dialog_title);
+					
 			return v;
 		}
 		
@@ -154,7 +198,7 @@ public class GitCommitsFragment extends ListFragment implements
 		// dialog, so make our own transaction and take care of that here.
 		FragmentTransaction ft = getFragmentManager().beginTransaction(); 
 
-		DialogFragment newFragment = new GitCommitsConfigDialogFragment();
+		DialogFragment newFragment = GitCommitsConfigDialogFragment.newInstance(mSc);
 
 		// Show the dialog.
 		newFragment.show(ft, "dialog");
@@ -203,4 +247,42 @@ public class GitCommitsFragment extends ListFragment implements
 
 	}
 
+	
+	 /**
+     * The callback for the 'photo selected' {@link ActionMode}. In this action mode, we can
+     * provide contextual actions for the selected photo. We currently only provide the 'share'
+     * action, but we could also add clipboard functions such as cut/copy/paste here as well.
+     */
+    private ActionMode.Callback mContentSelectionActionModeCallback = new ActionMode.Callback() {
+        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+            actionMode.setTitle(R.string.view_selection_cab_title);
+
+            MenuInflater inflater = getActivity().getMenuInflater();
+            inflater.inflate(R.menu.source_context_menu, menu);
+            return true;
+        }
+
+        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+            return false;
+        }
+
+        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.delete:
+                    mSourceManager.deleteSource(mSc);
+                    actionMode.finish();
+                    return true;
+                case R.id.edit:
+                    showConfigDialog();
+                    actionMode.finish();
+                    return true;
+            }
+            return false;
+        }
+
+        public void onDestroyActionMode(ActionMode actionMode) {
+            mContentView.setSelected(false);
+            mCurrentActionMode = null;
+        }
+    };
 }
