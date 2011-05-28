@@ -3,6 +3,7 @@
  */
 package org.taboard.source.charts;
 
+import org.taboard.SourceManager;
 import org.taboard.config.SourceConfig;
 import org.taboard.source.git.GitCommitsFragment;
 
@@ -35,7 +36,7 @@ public class ChartsSourceConfig implements SourceConfig {
 		return ChartsFragment.class;
 	}
 
-	public Fragment createFragment(Activity activity) {
+	public Fragment createFragment(Activity activity, SourceManager sourceManager) {
 		return new ChartsFragment(this);
 	}
 
