@@ -1,4 +1,7 @@
-package org.taboard;
+package org.taboard.view;
+
+import org.taboard.Main;
+import org.taboard.R;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

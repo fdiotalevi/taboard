@@ -2,8 +2,8 @@ package org.taboard.source.googlecode;
 
 import java.util.List;
 
+import org.taboard.ColorScheme;
 import org.taboard.R;
-import org.taboard.config.ColorScheme;
 
 import android.content.Context;
 import android.view.View;

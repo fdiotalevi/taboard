@@ -2,8 +2,8 @@ package org.taboard.source.git;
 
 import java.util.List;
 
+import org.taboard.ColorScheme;
 import org.taboard.R;
-import org.taboard.config.ColorScheme;
 
 import android.content.Context;
 import android.graphics.Color;

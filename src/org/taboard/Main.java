@@ -1,19 +1,19 @@
 package org.taboard;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.taboard.config.RefreshableFragment;
 import org.taboard.config.SourceConfig;
-import org.taboard.filter.Filterable;
+import org.taboard.config.ViewConfig;
+import org.taboard.config.ViewConfigStore;
+import org.taboard.filter.FilterableSource;
 import org.taboard.filter.FilterableFragment;
 import org.taboard.source.charts.ChartsSourceConfig;
 import org.taboard.source.contacts.ContactsSourceConfig;
 import org.taboard.source.git.GitSourceConfig;
 import org.taboard.source.google.GoogleSourceConfig;
 import org.taboard.source.googlecode.GoogleCodeIssueSourceConfig;
-import org.taboard.source.jenkins.JenkinsFeedSourceConfig;
 import org.taboard.view.AboutDialogFragment;
 import org.taboard.view.GridLayout;
+import org.taboard.view.SourceChooserDialogFragment;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -39,11 +39,9 @@ public class Main extends Activity implements SourceManager {
 			ChartsSourceConfig.class, GoogleSourceConfig.class };
 
 	private final Handler mHandler = new Handler();
+	
+	private ViewConfig mViewConfig;
 
-	List<SourceConfig> mSources;
-
-	private final static String PROJECT1 = "fdiotalevi/taboard";
-	private final static String PROJECT2 = "openintents/aainterfaces";
 
 	private View mActionBarView;
 
@@ -64,26 +62,15 @@ public class Main extends Activity implements SourceManager {
 		bar.setDisplayShowTitleEnabled(true);
 		bar.setDisplayShowHomeEnabled(true);
 
-		mSources = new ArrayList<SourceConfig>();
-		mSources.add(new GitSourceConfig(PROJECT1, "Taboard"));
-		mSources.add(new GitSourceConfig(PROJECT2, "Open Android Apps"));
-		mSources.add(new GoogleCodeIssueSourceConfig(
-				"http://code.google.com/p/openintents/issues/csv", "OpenIntent"));
-		mSources.add(new JenkinsFeedSourceConfig("http://ci.jenkins-ci.org/rssLatest", "Jenkins CI"));
-				mSources.add(new ContactsSourceConfig(null));
-		mSources.add(new GoogleSourceConfig(null));
-		mSources.add(new ChartsSourceConfig("TestChart", new String[] {
-				"Build Types", "number of builds per type" }, new String[] {
-				"Successful Builds", "Failed Builds", "Cocktail Builds" },
-				new double[] { 300d, 100d, 200d }));
-
+		mViewConfig = ViewConfigStore.loadDefault();
+		
 		addFragments();
 	}
 
 	private void addFragments() {
 		FragmentManager fm = getFragmentManager();
 		FragmentTransaction t = fm.beginTransaction();
-		for (SourceConfig sc : mSources) {
+		for (SourceConfig sc : mViewConfig.configs) {
 			addFragment(t, sc);
 
 		}
@@ -108,6 +95,7 @@ public class Main extends Activity implements SourceManager {
 
 				mHandler.postDelayed(new Runnable() {
 					public void run() {
+						Main.this.doRefresh();
 						refresh.setActionView(null);
 					}
 				}, 1000);
@@ -117,11 +105,36 @@ public class Main extends Activity implements SourceManager {
 		return super.onCreateOptionsMenu(menu);
 	}
 
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuItem item = null;
+		if (mViewConfig.numCols == 2) {
+			if (mViewConfig.numRows == 2){
+				item  = menu.findItem(R.id.menu_layout_2x2);
+			} else if (mViewConfig.numRows == 3){
+				item = menu.findItem(R.id.menu_layout_2x3);
+			}
+		} else if (mViewConfig.numCols == 3){
+			if (mViewConfig.numRows == 2){
+				item = menu.findItem(R.id.menu_layout_3x2);
+			} else if (mViewConfig.numRows == 3){
+				item = menu.findItem(R.id.menu_layout_3x3);
+			}			
+		}
+		
+		if (item != null){
+			item.setChecked(true);
+		} 
+		
+		return super.onPrepareOptionsMenu(menu);
+	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			doFilter(Filterable.class, null, null);
+			doFilter(FilterableSource.class, null, null);
 			return true;
 		case R.id.menu_refresh:
 			// switch to a progress animation
@@ -198,7 +211,7 @@ public class Main extends Activity implements SourceManager {
 
 	}
 
-	public void doFilter(Class<? extends Filterable> filterableClass,
+	public void doFilter(Class<? extends FilterableSource> filterableClass,
 			Bundle filter, String description) {
 		if (filter != null) {
 			getActionBar().setSubtitle("Filtered by " + description);
@@ -212,11 +225,11 @@ public class Main extends Activity implements SourceManager {
 		t.setBreadCrumbTitle("Something");
 
 		getActionBar().setDisplayHomeAsUpEnabled(filter != null);
-		for (SourceConfig sc : mSources) {
+		for (SourceConfig sc : mViewConfig.configs) {
 			if (filterableClass.isAssignableFrom(sc.getClass())) {
 
 				// step 1: remember the current filter
-				((Filterable) sc).setCurrentFilter(filter);
+				((FilterableSource) sc).setCurrentFilter(filter);
 
 				// step 2: let the fragment know that the filter has been
 				// changed
@@ -230,6 +243,18 @@ public class Main extends Activity implements SourceManager {
 
 	}
 
+	protected void doRefresh() {
+		FragmentManager fm = getFragmentManager();
+		for (SourceConfig sc : mViewConfig.configs) {			
+			Fragment f = fm.findFragmentByTag(sc.getTag());
+			if (f instanceof RefreshableFragment){
+				((RefreshableFragment) f).doRefresh();
+			}
+		}
+		
+	}
+
+	
 	public void deleteSource(SourceConfig sc) {
 		FragmentManager fm = getFragmentManager();
 		Fragment f = fm.findFragmentByTag(sc.getTag());

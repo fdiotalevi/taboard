@@ -2,7 +2,7 @@ package org.taboard.filter;
 
 import android.os.Bundle;
 
-public interface Filterable {
+public interface FilterableSource {
 
 	void setCurrentFilter(Bundle filter);
 	Bundle getCurrentFilter();
