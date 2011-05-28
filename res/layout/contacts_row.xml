@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/contactsRow"
+	android:layout_width="fill_parent"
+	android:layout_height="60dp" >
+	
+	<QuickContactBadge android:id="@+id/contactsRow_thumbnail"
+		android:layout_width="45dp"
+		android:layout_height="45dp"
+		android:layout_centerVertical="true"
+		android:layout_alignParentLeft="true">
+	</QuickContactBadge>
+	
+	<TextView android:id="@+id/contactsRow_name"
+		android:text="hello row name"
+		android:textSize="20dp"
+		android:textColor="#FFFFFF"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginTop="3dp"
+		android:layout_alignParentTop="true"
+		android:layout_toRightOf="@+id/contactsRow_thumbnail">
+	</TextView>
+	
+	<TextView android:id="@+id/contactsRow_lastContact"
+		android:text="hello row lastContact"
+		android:textSize="16dp"
+		android:textColor="#AAAAAA"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginBottom="3dp"
+		android:layout_alignParentBottom="true"
+		android:layout_toRightOf="@+id/contactsRow_thumbnail">
+	</TextView>
+		
+</RelativeLayout>
