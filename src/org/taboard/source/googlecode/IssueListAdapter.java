@@ -3,6 +3,7 @@ package org.taboard.source.googlecode;
 import java.util.List;
 
 import org.taboard.R;
+import org.taboard.config.ColorScheme;
 
 import android.content.Context;
 import android.view.View;
@@ -23,10 +24,18 @@ public class IssueListAdapter extends ArrayAdapter<Issue>{
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		View row =  super.getView(position, convertView, parent);
+				
+		if (position % 2 == 0)
+			row.setBackgroundColor(ColorScheme.ODD_ROW);
+		else
+			row.setBackgroundColor(ColorScheme.EVEN_ROW);
 		
 		Issue item = getItem(position);
 		
 		((TextView)row.findViewById(R.id.commitMessage)).setText(item.message);
+		
+		((TextView)row.findViewById(R.id.authorEmail)).setTextColor(ColorScheme.EMAIL_COLOR);
+		((TextView)row.findViewById(R.id.authorEmail)).setText(item.authorEmail);
 		
 		return row;
 	}
