@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<style name="SquareStyle">
-		<item name="org.taboard:numColumns">2</item>
-		<item name="org.taboard:numRows">2</item>
+		<item name="org.taboard:numColumns">3</item>
+		<item name="org.taboard:numRows">3</item>
 	</style> 
 </resources>
 

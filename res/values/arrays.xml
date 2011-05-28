@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="arraylabels_source">
+		<item>GitHub Commits</item>
+		<item>Google Code Issues</item>
+		<item>Contacts</item>		
+		<item>Chart</item>
+		<item>Search Result</item>
+	</string-array>
+</resources>

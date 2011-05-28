@@ -12,13 +12,22 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.taboard.Main;
 import org.taboard.R;
 import org.taboard.SourceManager;
 import org.taboard.filter.FilterableFragment;
+import org.taboard.view.AboutDialogFragment;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,8 +120,45 @@ public class GitCommitsFragment extends ListFragment implements
 
 		};
 
-		task.execute(mSc.getUrl());
+		if (mSc.getUrl() != null) {
+			task.execute(mSc.getUrl());
+		} else {
+			showConfigDialog();
+		}
 
+	}
+
+	
+	public class GitCommitsConfigDialogFragment extends DialogFragment {
+
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			View v = inflater.inflate(R.layout.gitcommits_config_dialog,container,false);
+	        return v;			
+		}
+		
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+		
+			Dialog v = super.onCreateDialog(savedInstanceState);
+			v.setTitle(R.string.git_hub_config_dialog_title);
+			return v;
+		}
+		
+	}
+	
+	private void showConfigDialog() {
+		// DialogFragment.show() will take care of adding the fragment
+		// in a transaction. We also want to remove any currently showing
+		// dialog, so make our own transaction and take care of that here.
+		FragmentTransaction ft = getFragmentManager().beginTransaction(); 
+
+		DialogFragment newFragment = new GitCommitsConfigDialogFragment();
+
+		// Show the dialog.
+		newFragment.show(ft, "dialog");
+		
 	}
 
 	public void showProgressBar(boolean showProgressBar) {
@@ -131,9 +177,7 @@ public class GitCommitsFragment extends ListFragment implements
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Bundle filter = new Bundle();
 		String email = ((CommitListAdapter) l.getAdapter()).getItem(position).authorEmail;
-		filter.putString(
-				"email",
-				email);
+		filter.putString("email", email);
 
 		mSourceManager.doFilter(ContactFilterable.class, filter, email);
 	}

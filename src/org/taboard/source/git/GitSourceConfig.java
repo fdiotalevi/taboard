@@ -13,6 +13,10 @@ public class GitSourceConfig implements SourceConfig<GitCommitsFragment>, Contac
 	private Bundle mCurrentFilter;
 
 
+	public GitSourceConfig(){
+		
+	}
+	
 	public GitSourceConfig(String url, String name) {
 		mUrl = url;
 		mName = name;		

@@ -141,6 +141,11 @@ public class GridLayout extends ViewGroup {
             }
         }
     }
+
+	public void setNumRowsCols(int rows, int columns) {
+		mNumRows = rows;
+		mNumColumns = columns;			
+	}
 }
 
 

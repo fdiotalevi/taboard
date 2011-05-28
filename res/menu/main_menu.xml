@@ -24,6 +24,27 @@
 	<item android:id="@+id/menu_refresh" android:showAsAction="ifRoom"
 		android:title="@string/action_label_refresh" android:icon="@drawable/ic_menu_refresh_holo_light" />
 
+	<item android:id="@+id/menu_add_source" android:showAsAction="never"
+		android:title="@string/action_label_add_source" android:icon="@android:drawable/ic_menu_add" />
+
+
+	<item android:id="@+id/menu_layout" android:title="@string/action_label_layout">
+                <menu>
+                        <group android:id="@+id/menu_layout_group"
+                                android:checkableBehavior="single">
+                                
+                                <item android:id="@+id/menu_layout_2x2" android:title="@string/action_label_layout_2x2" android:checked="true" />
+
+                                <item android:id="@+id/menu_layout_2x3" android:title="@string/action_label_layout_2x3" />
+                                
+                                <item android:id="@+id/menu_layout_3x2" android:title="@string/action_label_layout_3x2" />
+
+                                <item android:id="@+id/menu_layout_3x3" android:title="@string/action_label_layout_3x3" />
+                        </group>
+                </menu>
+        </item>
+
+	
 	<item android:id="@+id/menu_about" android:showAsAction="never"
 		android:title="@string/action_label_about" />
 
