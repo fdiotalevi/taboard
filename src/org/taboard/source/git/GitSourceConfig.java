@@ -22,8 +22,8 @@ public class GitSourceConfig implements SourceConfig<GitCommitsFragment>, Contac
 		return GitCommitsFragment.class;
 	}
 
-	public GitCommitsFragment createFragment(Activity activity) {
-		return new GitCommitsFragment(this, (SourceManager) activity);
+	public GitCommitsFragment createFragment(Activity activity, SourceManager sourceManager) {
+		return new GitCommitsFragment(this, sourceManager);
 	}
 
 	public String getTag() {

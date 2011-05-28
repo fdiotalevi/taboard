@@ -49,7 +49,8 @@ public class Main extends Activity implements SourceManager {
 
         //bar.setCustomView(mActionBarView);
         bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_USE_LOGO);
-        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);        
+        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);       
+        bar.setDisplayShowTitleEnabled(true);
         bar.setDisplayShowHomeEnabled(true);
         
         
@@ -63,7 +64,7 @@ public class Main extends Activity implements SourceManager {
 		FragmentManager fm = getFragmentManager();
 		FragmentTransaction t = fm.beginTransaction();
 		for (SourceConfig sc : mSources) {
-			Fragment fragment = sc.createFragment(this);
+			Fragment fragment = sc.createFragment(this, this);
 			t.add(R.id.taboard, fragment, sc.getTag());
 
 		}
@@ -97,7 +98,7 @@ public class Main extends Activity implements SourceManager {
      public boolean onOptionsItemSelected(MenuItem item) {
              switch (item.getItemId()) {
              case android.R.id.home:
-                    doFilter(Filterable.class, null);
+                    doFilter(Filterable.class, null, null);
                      return true;
              case R.id.menu_refresh:
                      // switch to a progress animation
@@ -132,7 +133,12 @@ public class Main extends Activity implements SourceManager {
      }
 
 	public void doFilter(Class<? extends Filterable> filterableClass,
-			Bundle filter) {
+			Bundle filter, String description) {
+		if (filter != null){
+			getActionBar().setSubtitle("Filtered by " + description);
+		} else {
+			getActionBar().setSubtitle(null);
+		}
 		FragmentManager fm = getFragmentManager();
 
 		FragmentTransaction t = fm.beginTransaction();

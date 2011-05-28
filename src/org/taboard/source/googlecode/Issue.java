@@ -13,6 +13,7 @@ public class Issue {
 		this.id = nextLine[0];
 		this.owner = nextLine[5];
 		this.message = nextLine[6];
+		this.authorEmail = nextLine[5] + "@gmail.com";
 	}
 	
 	

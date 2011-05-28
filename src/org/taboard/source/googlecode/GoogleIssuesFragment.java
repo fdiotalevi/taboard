@@ -1,6 +1,5 @@
 package org.taboard.source.googlecode;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -10,10 +9,13 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
 import org.taboard.R;
+import org.taboard.SourceManager;
+import org.taboard.filter.FilterableFragment;
+import org.taboard.source.git.Commit;
+import org.taboard.source.git.CommitListAdapter;
+import org.taboard.source.git.ContactFilterable;
 
 import android.app.ListFragment;
 import android.os.AsyncTask;
@@ -21,17 +23,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 import au.com.bytecode.opencsv.CSVReader;
 
-public class GoogleIssuesFragment extends ListFragment{
+public class GoogleIssuesFragment extends ListFragment implements FilterableFragment{
 	
 	private static final String TAG = "googleissues";
 	private GoogleCodeIssueSourceConfig mSc;
+	protected List<Issue> mIssues;
+	private SourceManager mSourceManager;
 	
 	
-	public GoogleIssuesFragment(GoogleCodeIssueSourceConfig sc) {
+	public GoogleIssuesFragment(GoogleCodeIssueSourceConfig sc, SourceManager sm) {
 		mSc =sc; 	
+		mSourceManager = sm;
 	}
 
 	@Override
@@ -91,17 +97,47 @@ public class GoogleIssuesFragment extends ListFragment{
 			}
 			
 		     protected void onPostExecute(List<Issue> commits) {
-		    	 GoogleIssuesFragment.this.setListAdapter(new IssueListAdapter(GoogleIssuesFragment.this.getActivity(), R.id.commitMessage, commits));
+		    	 mIssues = commits;
+		    	 GoogleIssuesFragment.this.setListAdapter(new IssueListAdapter(GoogleIssuesFragment.this.getActivity(), R.id.commitMessage, mIssues));
 		     }
 	
    			
    		};
    		
-   		task.execute(mSc.getUrl());
-   		
-   		
+   		task.execute(mSc.getUrl());   		   	
    	}
-   
+   	
+   	@Override
+   	public void onListItemClick(ListView l, View v, int position, long id) {
+   		Bundle filter = new Bundle();
+		String email = ((IssueListAdapter) l.getAdapter()).getItem(position).authorEmail;
+		filter.putString(
+				"email",
+				email);
+
+		mSourceManager.doFilter(ContactFilterable.class, filter, email);
+   	}
+
+	public void onFilterChanged() {
+		Bundle filter = mSc.getCurrentFilter();
+		List<Issue> filteredIssues;
+		if (filter != null) {
+			String emailFilter = filter.getString("email");
+			filteredIssues = new ArrayList<Issue>();
+			for (Issue c : mIssues) {
+				if (c.authorEmail.equalsIgnoreCase(emailFilter)) {
+					filteredIssues.add(c);
+				}
+			}
+		} else {
+			filteredIssues = mIssues;
+		}
+
+		getListView().setAdapter(
+				new IssueListAdapter(getActivity(), R.id.commitMessage,
+						filteredIssues));
+
+	} 
    
    
 

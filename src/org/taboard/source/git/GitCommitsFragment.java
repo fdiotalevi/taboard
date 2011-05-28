@@ -16,14 +16,12 @@ import org.taboard.R;
 import org.taboard.SourceManager;
 import org.taboard.filter.FilterableFragment;
 
-import android.app.Activity;
 import android.app.ListFragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -62,6 +60,11 @@ public class GitCommitsFragment extends ListFragment implements
 	private void getCommitList() {
 
 		AsyncTask<String, Void, List<Commit>> task = new AsyncTask<String, Void, List<Commit>>() {
+
+			@Override
+			protected void onPreExecute() {
+				showProgressBar(true);
+			}
 
 			@Override
 			protected List<Commit> doInBackground(String... params) {
@@ -103,6 +106,7 @@ public class GitCommitsFragment extends ListFragment implements
 				GitCommitsFragment.this.setListAdapter(new CommitListAdapter(
 						GitCommitsFragment.this.getActivity(),
 						R.id.commitMessage, commits));
+				showProgressBar(false);
 			}
 
 		};
@@ -111,14 +115,27 @@ public class GitCommitsFragment extends ListFragment implements
 
 	}
 
+	public void showProgressBar(boolean showProgressBar) {
+		if (showProgressBar) {
+			getListView().setVisibility(View.GONE);
+			getView().findViewById(R.id.progress_bar).setVisibility(
+					View.VISIBLE);
+		} else {
+			getListView().setVisibility(View.VISIBLE);
+			getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+
+		}
+	}
+
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Bundle filter = new Bundle();
+		String email = ((CommitListAdapter) l.getAdapter()).getItem(position).authorEmail;
 		filter.putString(
 				"email",
-				((CommitListAdapter) l.getAdapter()).getItem(position).authorEmail);
+				email);
 
-		mSourceManager.doFilter(ContactFilterable.class, filter);
+		mSourceManager.doFilter(ContactFilterable.class, filter, email);
 	}
 
 	public void onFilterChanged() {
@@ -135,7 +152,7 @@ public class GitCommitsFragment extends ListFragment implements
 		} else {
 			filteredCommits = mCommits;
 		}
-		
+
 		getListView().setAdapter(
 				new CommitListAdapter(getActivity(), R.id.commitMessage,
 						filteredCommits));

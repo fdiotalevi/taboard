@@ -3,6 +3,7 @@
  */
 package org.taboard.source.google;
 
+import org.taboard.SourceManager;
 import org.taboard.config.SourceConfig;
 import org.taboard.source.git.GitCommitsFragment;
 
@@ -28,7 +29,7 @@ public class GoogleSourceConfig implements SourceConfig {
 		return GoogleFragment.class;
 	}
 
-	public Fragment createFragment(Activity activity) {
+	public Fragment createFragment(Activity activity, SourceManager sourceManager) {
 		return new GoogleFragment(this);
 	}
 

@@ -3,6 +3,7 @@
  */
 package org.taboard.source.contacts;
 
+import org.taboard.SourceManager;
 import org.taboard.config.SourceConfig;
 import org.taboard.source.google.GoogleFragment;
 
@@ -27,8 +28,7 @@ public class ContactsSourceConfig implements SourceConfig {
 	/* (non-Javadoc)
 	 * @see org.taboard.config.SourceConfig#createFragment(android.app.Activity)
 	 */
-	public Fragment createFragment(Activity activity) {
-		// TODO Auto-generated method stub
+	public Fragment createFragment(Activity activity, SourceManager sourceManager) {
 		return new ContactsFragment(this);
 	}
 

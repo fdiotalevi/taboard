@@ -4,6 +4,7 @@
 package org.taboard.source.contacts;
 
 import org.taboard.R;
+import org.taboard.SourceManager;
 import org.taboard.config.SourceConfig;
 
 import android.app.Fragment;
@@ -32,6 +33,7 @@ public class ContactsFragment extends Fragment {
 	}
 	
 	/**
+	 * @param sourceManager 
 	 * 
 	 */
 	public ContactsFragment(SourceConfig cfg) {

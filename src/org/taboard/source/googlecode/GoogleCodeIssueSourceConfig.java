@@ -1,13 +1,17 @@
 package org.taboard.source.googlecode;
 
+import org.taboard.SourceManager;
 import org.taboard.config.SourceConfig;
+import org.taboard.source.git.ContactFilterable;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.os.Bundle;
 
-public class GoogleCodeIssueSourceConfig implements SourceConfig {
+public class GoogleCodeIssueSourceConfig implements SourceConfig<GoogleIssuesFragment>, ContactFilterable {
 	private String mUrl;
 	private String mName;
+	private Bundle mCurrentFilter;
 
 	public GoogleCodeIssueSourceConfig(String url, String name) {
 		mUrl = url;
@@ -18,8 +22,8 @@ public class GoogleCodeIssueSourceConfig implements SourceConfig {
 		return GoogleIssuesFragment.class;
 	}
 
-	public Fragment createFragment(Activity activity) {
-		return new GoogleIssuesFragment(this);
+	public GoogleIssuesFragment createFragment(Activity activity, SourceManager sourceManager) {
+		return new GoogleIssuesFragment(this, sourceManager);
 	}
 
 	public String getTag() {
@@ -32,5 +36,13 @@ public class GoogleCodeIssueSourceConfig implements SourceConfig {
 
 	public String getUrl() {
 		return mUrl;
+	}
+
+	public void setCurrentFilter(Bundle filter) {
+		mCurrentFilter = filter;
+	}
+
+	public Bundle getCurrentFilter() {
+		return mCurrentFilter;
 	}
 }
