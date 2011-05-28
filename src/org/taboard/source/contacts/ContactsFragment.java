@@ -3,9 +3,14 @@
  */
 package org.taboard.source.contacts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.taboard.R;
 import org.taboard.SourceManager;
 import org.taboard.config.SourceConfig;
+import org.taboard.source.git.Commit;
+import org.taboard.source.git.CommitListAdapter;
 
 import android.app.Fragment;
 import android.database.Cursor;
@@ -23,7 +28,9 @@ import android.widget.ListView;
  */
 public class ContactsFragment extends Fragment {
 
-	private SourceConfig cfg = null;
+	private ContactsSourceConfig cfg = null;
+	
+	private ListView contactsList = null;
 	
 	/**
 	 * 
@@ -36,7 +43,7 @@ public class ContactsFragment extends Fragment {
 	 * @param sourceManager 
 	 * 
 	 */
-	public ContactsFragment(SourceConfig cfg) {
+	public ContactsFragment(ContactsSourceConfig cfg) {
 		this.cfg = cfg;
 	}
 	
@@ -52,28 +59,26 @@ public class ContactsFragment extends Fragment {
 		super.onStart();
 		
 		// init listview
-		ListView contactsList = (ListView) getActivity().findViewById(R.id.contactsList);
+		contactsList = (ListView) getActivity().findViewById(R.id.contactsList);
 		
 		// init cursor
-		Cursor contactsCursor = getActivity().getContentResolver().query(
-				Contacts.CONTENT_URI,
-				new String [] {
-						Contacts._ID,
-						Contacts.DISPLAY_NAME_PRIMARY,
-						Contacts.LOOKUP_KEY,
-						Contacts.PHOTO_THUMBNAIL_URI,
-						Contacts.LAST_TIME_CONTACTED
-						
-				},
-				null,
-				null,
-				Contacts.DISPLAY_NAME_PRIMARY + " asc");
+		Cursor contactsCursor = ContactsSourceConfig.standardCursor(getActivity().getContentResolver());
 		
 		// init adapter
 		ContactsCursorAdapter contactsAdater = new ContactsCursorAdapter(getActivity(), contactsCursor);
 		
 		// attach adapter to list
 		contactsList.setAdapter(contactsAdater);
+	}
+	
+	public void onFilterChanged() {
+		// get filter
+		String contactNameFilter = cfg.getCurrentFilter().getString("contactName");
+		// forward filter
+		contactsList.setFilterText(contactNameFilter);
+		
+		String emailFilter = cfg.getCurrentFilter().getString("email");
+		contactsList.setFilterText(emailFilter);
 	}
 
 }

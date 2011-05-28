@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.text.format.DateFormat;
@@ -20,6 +21,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.QuickContactBadge;
 import android.widget.TextView;
@@ -28,7 +31,7 @@ import android.widget.TextView;
  * @author BeWi
  *
  */
-public class ContactsCursorAdapter extends CursorAdapter {
+public class ContactsCursorAdapter extends CursorAdapter implements Filterable {
 
 	private final LayoutInflater mInflater;
 	private Context context;
@@ -57,6 +60,7 @@ public class ContactsCursorAdapter extends CursorAdapter {
 	public ContactsCursorAdapter(Context context, Cursor c, boolean autoRequery) {
 		super(context, c, autoRequery);
 
+		this.context = context;
 		this.mInflater = LayoutInflater.from(context);
 		
 	}
@@ -69,6 +73,7 @@ public class ContactsCursorAdapter extends CursorAdapter {
 	public ContactsCursorAdapter(Context context, Cursor c, int flags) {
 		super(context, c, flags);
 		
+		this.context = context;
 		this.mInflater = LayoutInflater.from(context);
 	}
 
@@ -156,6 +161,25 @@ public class ContactsCursorAdapter extends CursorAdapter {
 	@Override
 	public int getViewTypeCount() {
 		return 1;
+	}
+	
+	@Override
+	public Filter getFilter() {
+		// TODO Auto-generated method stub
+		return super.getFilter();
+	}
+	@Override
+	public Cursor runQueryOnBackgroundThread(CharSequence constraint){
+		// just if the constraint contains something
+		if (constraint.length()>0) {
+			if (constraint.toString().contains("@")) { // email filter, if constraint contains @
+				return ContactsSourceConfig.cursorFilteredByEmail(this.context.getContentResolver(), constraint.toString());
+			} else {
+				return ContactsSourceConfig.cursorFilteredByName(this.context.getContentResolver(), constraint.toString());
+			}
+		} else {
+			return ContactsSourceConfig.standardCursor(this.context.getContentResolver());
+		}
 	}
 	
 	static class ContactViewHolder {
