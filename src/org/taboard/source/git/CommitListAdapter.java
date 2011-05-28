@@ -14,7 +14,7 @@ import android.widget.TextView;
 public class CommitListAdapter extends ArrayAdapter<Commit>{
 
 	public CommitListAdapter(Context context, int textViewResourceId, List<Commit> objects) {
-		super(context, R.layout.commit, textViewResourceId, objects);
+		super(context, R.layout.commit_row, textViewResourceId, objects);
 		
 	}
 

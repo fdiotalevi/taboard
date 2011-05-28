@@ -18,16 +18,33 @@ import android.app.Activity;
 import android.app.ListFragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class GitCommitsFragment extends ListFragment{
 	
 	private static final String TAG = "gitcommits";
-	private String URL = "http://github.com/api/v2/json/commits/list/fdiotalevi/taboard/master";
+	private GitSourceConfig mSc;
 	
+	public GitCommitsFragment() {
+	 	throw new RuntimeException("invalid use of Fragments");
+	}
+	
+	public GitCommitsFragment(GitSourceConfig sc) {
+		mSc =sc; 	
+	}
+
 	@Override
-	public void onAttach(Activity activity) {
-		// TODO Auto-generated method stub
-		super.onAttach(activity);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {		
+		View view = inflater.inflate(R.layout.git_commit_list, null);
+		TextView tv = (TextView) view.findViewById(R.id.title);
+		tv.setText(mSc.getTitle());
+		
+		return view;
+		
 	}
 	
    @Override
@@ -89,7 +106,7 @@ public class GitCommitsFragment extends ListFragment{
    			
    		};
    		
-   		task.execute(URL);
+   		task.execute(mSc.getUrl());
    		
    		
    	}

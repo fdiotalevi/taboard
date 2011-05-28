@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="org.taboard.GridLayout">
+        <attr name="numColumns" format="integer" />
+        <attr name="numRows" format="integer" />
+    </declare-styleable>
+</resources>
