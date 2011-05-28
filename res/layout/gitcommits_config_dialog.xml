@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:padding="4dip" android:gravity="center_horizontal"
-	android:layout_width="match_parent" android:layout_height="match_parent">
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:stretchColumns="1" android:padding="5dp">
 
-
-	<TextView android:id="@+id/label_github_project" android:text="@string/label_github_project"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:layout_alignParentTop="true" android:layout_weight="1"
-		android:layout_gravity="center_vertical|center_horizontal"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:gravity="top|center_horizontal" />
-
-	<EditText android:id="@+id/edit_github_project"
-		android:layout_alignParentTop="true" android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:layout_toRightOf="@id/label_github_project">
-		<requestFocus />
-	</EditText>
-
-	<TextView android:id="@+id/label_github_name" android:text="@string/label_github_name"
-		android:layout_width="wrap_content" android:layout_alignParentLeft="true"
-		android:layout_alignTop="@id/edit_github_project"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:gravity="top|center_horizontal" android:layout_height="wrap_content" />
-
-	<EditText android:id="@+id/edit_github_name"
-		android:layout_below="@id/edit_github_project" android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:layout_weight="1"
-		android:layout_alignLeft="@id/edit_github_project">
-		<requestFocus />
-	</EditText>
-
-</RelativeLayout>
+	<TableRow>
+		<TextView android:id="@+id/label_github_project" android:text="@string/label_github_project"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:layout_alignParentTop="true" android:layout_weight="1"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:paddingLeft="10dp" android:paddingRight="5dp"/>
+	
+		<EditText android:id="@+id/edit_github_project"
+			android:layout_alignParentTop="true" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:layout_toRightOf="@id/label_github_project"
+			android:paddingLeft="10dp" android:paddingRight="5dp">
+			<requestFocus />
+		</EditText>
+	</TableRow>
+	
+	<TableRow>
+		<TextView android:id="@+id/label_github_name" android:text="@string/label_github_name"
+			android:layout_width="wrap_content" android:layout_alignParentLeft="true"
+			android:layout_alignTop="@id/edit_github_project"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_height="wrap_content" 
+			android:paddingLeft="10dp" android:paddingRight="5dp"/>
+	
+		<EditText android:id="@+id/edit_github_name"
+			android:layout_below="@id/edit_github_project" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:layout_weight="1"
+			android:layout_alignLeft="@id/edit_github_project"
+			android:paddingLeft="10dp" android:paddingRight="5dp">
+			<requestFocus />
+		</EditText>
+	</TableRow>
+</TableLayout>
