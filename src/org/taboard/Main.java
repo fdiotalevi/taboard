@@ -11,6 +11,7 @@ import org.taboard.source.contacts.ContactsSourceConfig;
 import org.taboard.source.git.GitSourceConfig;
 import org.taboard.source.google.GoogleSourceConfig;
 import org.taboard.source.googlecode.GoogleCodeIssueSourceConfig;
+import org.taboard.source.jenkins.JenkinsFeedSourceConfig;
 import org.taboard.view.AboutDialogFragment;
 import org.taboard.view.GridLayout;
 
@@ -66,8 +67,9 @@ public class Main extends Activity implements SourceManager {
 		mSources = new ArrayList<SourceConfig>();
 		mSources.add(new GitSourceConfig(URL1, "Taboard"));
 		mSources.add(new GitSourceConfig(URL2, "Open Android Apps"));
-		mSources.add(new GoogleCodeIssueSourceConfig(
-				"http://code.google.com/p/openintents/issues/csv", "OpenIntent"));
+		mSources.add(new GoogleCodeIssueSourceConfig("http://code.google.com/p/openintents/issues/csv", "OpenIntent"));
+		mSources.add(new JenkinsFeedSourceConfig("http://ci.jenkins-ci.org/rssLatest", "Jenkins CI"));
+		
 		mSources.add(new ContactsSourceConfig(null));
 		mSources.add(new GoogleSourceConfig(null));
 		mSources.add(new ChartsSourceConfig("TestChart", new String[] {
