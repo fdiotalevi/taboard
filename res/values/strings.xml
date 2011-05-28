@@ -1,5 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="hello">Hello World, Main!</string>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>    
     <string name="app_name">taboard</string>
+    <string name="action_label_search">Search</string>
+    <string name="action_label_refresh">Refresh</string>
+    <string name="action_label_about">About</string>
+    <string name="about_dialog_title">About</string>
 </resources>
