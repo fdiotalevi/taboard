@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:background="@drawable/picture_frame_white_default"
+	android:background="#2547ac" android:padding="2dp"
 	android:orientation="vertical">
 
 	<TextView android:textSize="22dp" android:textColor="#FFFFFF" android:background="#2547ac"	
