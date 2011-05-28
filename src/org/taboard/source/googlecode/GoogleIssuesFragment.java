@@ -13,8 +13,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.taboard.R;
 import org.taboard.SourceManager;
 import org.taboard.filter.FilterableFragment;
-import org.taboard.source.git.Commit;
-import org.taboard.source.git.CommitListAdapter;
 import org.taboard.source.git.ContactFilterable;
 
 import android.app.ListFragment;

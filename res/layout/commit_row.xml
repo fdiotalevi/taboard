@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent" android:layout_height="match_parent"
-	android:orientation="vertical">
-	<TextView android:textSize="20dp" android:textColor="#FFFFFF"
+	android:orientation="vertical" android:padding="2dp">
+	<TextView android:textSize="18dp" android:textColor="#000000"
 		android:text="" android:id="@+id/commitMessage" android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		></TextView>
+		android:layout_height="wrap_content" android:padding="3dp"  
+		android:textStyle="bold"></TextView>
+	<TextView android:textSize="12dp" android:textColor="#000000"
+			android:text="" android:id="@+id/commitId" android:layout_width="wrap_content"
+			android:layout_height="wrap_content"  android:paddingLeft="4dp"></TextView>		
+	<LinearLayout android:id="@+id/linearLayout1" 
+	android:layout_height="wrap_content" android:layout_width="match_parent" android:orientation="horizontal"
+	android:paddingLeft="4dp">	
+		<TextView android:textSize="14dp" android:textColor="#000000"
+			android:text="by " android:id="@+id/commitId" android:layout_width="wrap_content"
+			android:layout_height="wrap_content"  android:padding="0dp"></TextView>			
+		<TextView android:textSize="14dp" android:textColor="#000000"
+			android:text="" android:id="@+id/authorEmail" android:layout_width="wrap_content"
+			android:layout_height="wrap_content"  android:padding="0dp"></TextView>	
+	</LinearLayout>
+		
 </LinearLayout>

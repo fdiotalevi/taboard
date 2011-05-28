@@ -4,12 +4,13 @@
 	android:background="@drawable/picture_frame_white_default"
 	android:orientation="vertical">
 
-	<TextView android:textSize="24dp" android:textColor="#FFFFFF"
+	<TextView android:textSize="22dp" android:textColor="#FFFFFF" android:background="#2547ac"	
 		android:id="@+id/title" android:layout_width="match_parent"
-		android:layout_height="wrap_content" android:text="TITLE" />
+		android:layout_height="wrap_content" android:text="TITLE" 
+		android:paddingLeft="10dp" android:paddingTop="3dp" android:paddingBottom="5dp"/>
 
 	<ListView android:id="@android:id/list" android:layout_width="match_parent"
-		android:layout_height="fill_parent" android:layout_margin="5dp" />
+		android:layout_height="fill_parent" android:layout_margin="5dp" android:background="#ffffff"/>
 
 	<RelativeLayout android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:layout_gravity="center">
@@ -18,6 +19,7 @@
 			android:visibility="gone" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:indeterminate="true"
 			android:layout_centerInParent="true"
+			android:background="#ffffff"
 			android:layout_marginLeft="@dimen/progress_action_padding"
 			android:layout_marginRight="@dimen/progress_action_padding" />
 	</RelativeLayout>
