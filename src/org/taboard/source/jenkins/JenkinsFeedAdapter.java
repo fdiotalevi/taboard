@@ -10,6 +10,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class JenkinsFeedAdapter extends ArrayAdapter<Build>{
@@ -33,6 +34,12 @@ public class JenkinsFeedAdapter extends ArrayAdapter<Build>{
 		Build item = getItem(position);
 		
 		((TextView)row.findViewById(R.id.message)).setText(item.message);
+		if ("blue".equals(item.status))
+			((ImageView)row.findViewById(R.id.statusIcon)).setBackgroundResource(R.drawable.blue);
+		else if ("red".equals(item.status))
+			((ImageView)row.findViewById(R.id.statusIcon)).setBackgroundResource(R.drawable.red);
+		else
+			((ImageView)row.findViewById(R.id.statusIcon)).setBackgroundResource(R.drawable.grey);
 		
 		return row;
 	}

@@ -6,15 +6,17 @@ public class Build {
 	public String message;
 	
 	public Build(String m) {
-		this.message = m;
-		if (message.contains("(aborted") || message.contains("(?"))
-			status = "grey";
-		else if (message.contains("(broken"))
-			status = "red";
-		else if (message.contains("(stable"))
-			status = " blue";
+		
+		if (m.contains("(aborted") || m.contains("(?"))
+			this.status = "grey";
+		else if (m.contains("(broken"))
+			this.status = "red";
+		else if (m.contains("(stable"))
+			this.status = "blue";
 		else 
-			status = "grey";
+			this.status = "grey";
+		
+		this.message = m.substring(0, m.indexOf("("));
 	}
 
 }

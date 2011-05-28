@@ -23,7 +23,7 @@ public class JenkinsFeedSourceConfig  implements SourceConfig<JenkinsFeedFragmen
 	}
 	
 	public String getTitle() {
-		return "Jenkins Continuous Integration: " + mName;
+		return "Jenkins CI: " + mName;
 	}
 
 	public String getTag() {

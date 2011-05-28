@@ -92,13 +92,13 @@ public class JenkinsFeedFragment  extends ListFragment{
 					for (int i = 0; i < list.getLength(); i++) {
 						
 						
-						Build b = new Build();
+						Build b = null;
 						NodeList children = list.item(i).getChildNodes(); 
 						for (int j = 0; j < children.getLength(); j++) {							
 							Node child = children.item(j);
 							if ("title".equals(child.getNodeName()))
 							{
-								b.message = getText(child);
+								b = new Build(getText(child));
 							}						
 						}
 						output.add(b);
