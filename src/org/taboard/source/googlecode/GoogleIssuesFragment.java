@@ -1,20 +1,20 @@
-package org.taboard.source.git;
+package org.taboard.source.googlecode;
 
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.taboard.R;
 
-import android.app.Activity;
 import android.app.ListFragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,14 +22,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import au.com.bytecode.opencsv.CSVReader;
 
-public class GitCommitsFragment extends ListFragment{
+public class GoogleIssuesFragment extends ListFragment{
 	
-	private static final String TAG = "gitcommits";
-	private GitSourceConfig mSc;
+	private static final String TAG = "googleissues";
+	private GoogleCodeIssueSourceConfig mSc;
 	
 	
-	public GitCommitsFragment(GitSourceConfig sc) {
+	public GoogleIssuesFragment(GoogleCodeIssueSourceConfig sc) {
 		mSc =sc; 	
 	}
 
@@ -56,36 +57,29 @@ public class GitCommitsFragment extends ListFragment{
    
    	private void getCommitList() {
    		
-   		AsyncTask<String, Void, List<Commit>> task = new AsyncTask<String, Void, List<Commit>>() {
+   		AsyncTask<String, Void, List<Issue>> task = new AsyncTask<String, Void, List<Issue>>() {
 
 			@Override
-			protected List<Commit> doInBackground(String... params) {
+			protected List<Issue> doInBackground(String... params) {
 				HttpClient client = new DefaultHttpClient();
 		   		HttpGet get = new HttpGet(params[0]);
-		   		List<Commit> output = new ArrayList<Commit>();
+		   		List<Issue> output = new ArrayList<Issue>();
 		   		
 		   		try {
-		   			BasicResponseHandler handler = new BasicResponseHandler();
-					String response = client.execute(get, handler);
-														
-					@SuppressWarnings("unused")
-					JSONObject commits = new JSONObject(response); 
-										
-					JSONArray commitArray = commits.getJSONArray("commits");
+					HttpResponse response = client.execute(get);
+					 CSVReader reader = new CSVReader(new InputStreamReader(response.getEntity().getContent()));
+					    String [] nextLine;
+					    while ((nextLine = reader.readNext()) != null) {
+					    	if (nextLine.length > 5){
+					    		output.add(new Issue(nextLine));
+					    	}
+					    }
 					
-					
-					
-					for (int i = 0; i < commitArray.length(); i++) {
-						output.add(new Commit((JSONObject) commitArray.get(i)));
-					}
 					
 				} catch (ClientProtocolException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -96,8 +90,8 @@ public class GitCommitsFragment extends ListFragment{
 				return output;
 			}
 			
-		     protected void onPostExecute(List<Commit> commits) {
-		    	 GitCommitsFragment.this.setListAdapter(new CommitListAdapter(GitCommitsFragment.this.getActivity(), R.id.commitMessage, commits));
+		     protected void onPostExecute(List<Issue> commits) {
+		    	 GoogleIssuesFragment.this.setListAdapter(new IssueListAdapter(GoogleIssuesFragment.this.getActivity(), R.id.commitMessage, commits));
 		     }
 	
    			

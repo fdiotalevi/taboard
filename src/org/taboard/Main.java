@@ -7,6 +7,7 @@ import org.taboard.config.SourceConfig;
 import org.taboard.config.UrlSourceConfig;
 import org.taboard.source.git.GitCommitsFragment;
 import org.taboard.source.git.GitSourceConfig;
+import org.taboard.source.googlecode.GoogleCodeIssueSourceConfig;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -31,6 +32,7 @@ public class Main extends Activity {
         mSources = new ArrayList<SourceConfig>();
         mSources.add(new GitSourceConfig(URL1, "Taboard"));
         mSources.add(new GitSourceConfig(URL2, "Open Android Apps"));
+        mSources.add(new GoogleCodeIssueSourceConfig("http://code.google.com/p/openintents/issues/csv", "OpenIntent"));
         //mSources.add(new ContactsSourceConfig());
         
         FragmentManager fm = getFragmentManager();
