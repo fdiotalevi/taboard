@@ -22,7 +22,6 @@
 	<TableRow>
 		<TextView android:id="@+id/label_github_name" android:text="@string/label_github_name"
 			android:layout_width="wrap_content" android:layout_alignParentLeft="true"
-			android:layout_alignTop="@id/edit_github_project"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:layout_height="wrap_content" 
 			android:paddingLeft="10dp" android:paddingRight="5dp"/>
@@ -34,5 +33,13 @@
 			android:paddingLeft="10dp" android:paddingRight="5dp">
 			<requestFocus />
 		</EditText>
+	</TableRow>
+	
+	<TableRow>
+	<Button android:id="@+id/button_github_add" android:text="@string/button_github_add"
+			android:layout_width="wrap_content" android:layout_alignParentLeft="true"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_height="wrap_content" 
+			android:paddingLeft="10dp" android:paddingRight="5dp"/>
 	</TableRow>
 </TableLayout>

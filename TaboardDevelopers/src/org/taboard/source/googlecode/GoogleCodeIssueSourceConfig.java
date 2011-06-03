@@ -2,7 +2,7 @@ package org.taboard.source.googlecode;
 
 import org.taboard.SourceManager;
 import org.taboard.config.SourceConfig;
-import org.taboard.source.git.ContactFilterable;
+import org.taboard.filter.ContactFilterable;
 
 import android.app.Activity;
 import android.app.Fragment;

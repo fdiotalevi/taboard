@@ -5,6 +5,7 @@ package org.taboard.source.contacts;
 
 import org.taboard.SourceManager;
 import org.taboard.config.SourceConfig;
+import org.taboard.filter.ContactFilterable;
 import org.taboard.source.google.GoogleFragment;
 
 import android.app.Activity;
@@ -20,7 +21,12 @@ import android.provider.ContactsContract.Contacts;
  * @author BeWi
  *
  */
-public class ContactsSourceConfig implements SourceConfig {
+public class ContactsSourceConfig implements SourceConfig<ContactsFragment>, ContactFilterable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7807538627788912969L;
 
 	private String mName = null;
 	
@@ -38,15 +44,14 @@ public class ContactsSourceConfig implements SourceConfig {
 	/* (non-Javadoc)
 	 * @see org.taboard.config.SourceConfig#createFragment(android.app.Activity)
 	 */
-	public Fragment createFragment(Activity activity, SourceManager sourceManager) {
+	public ContactsFragment createFragment(Activity activity, SourceManager sourceManager) {
 		return new ContactsFragment(this);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.taboard.config.SourceConfig#getTag()
 	 */
-	public String getTag() {
-		// TODO Auto-generated method stub
+	public String getTag() {		
 		return "contacts " + mName;
 	}
 

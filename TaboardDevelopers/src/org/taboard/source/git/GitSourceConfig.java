@@ -2,6 +2,7 @@ package org.taboard.source.git;
 
 import org.taboard.SourceManager;
 import org.taboard.config.SourceConfig;
+import org.taboard.filter.ContactFilterable;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -44,8 +45,17 @@ public class GitSourceConfig implements SourceConfig<GitCommitsFragment>, Contac
 	public String getName(){
 		return mName;
 	}
+
+	public void setName(String name) {
+		this.mName = name;
+	}
+
 	public String getProject(){
 		return mProject;
+	}
+
+	public void setProject(String project) {
+		this.mProject = project;
 	}
 
 	public void setCurrentFilter(Bundle filter) {

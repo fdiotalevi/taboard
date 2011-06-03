@@ -67,6 +67,12 @@ public class Main extends Activity implements SourceManager {
 		addFragments();
 	}
 
+	public void addFragment(SourceConfig sc){
+		FragmentManager fm = getFragmentManager();
+		FragmentTransaction t = fm.beginTransaction();
+		addFragment(t, sc);
+		t.commit();
+	}
 	private void addFragments() {
 		FragmentManager fm = getFragmentManager();
 		FragmentTransaction t = fm.beginTransaction();
@@ -224,8 +230,11 @@ public class Main extends Activity implements SourceManager {
 		t.setBreadCrumbShortTitle("Something");
 		t.setBreadCrumbTitle("Something");
 
+		// change the HomeAsUp icon accordingly
 		getActionBar().setDisplayHomeAsUpEnabled(filter != null);
+		
 		for (SourceConfig sc : mViewConfig.configs) {
+			// only update the filters that can handle this filter
 			if (filterableClass.isAssignableFrom(sc.getClass())) {
 
 				// step 1: remember the current filter

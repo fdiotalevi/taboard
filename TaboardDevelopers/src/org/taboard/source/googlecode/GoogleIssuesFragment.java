@@ -12,8 +12,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.taboard.R;
 import org.taboard.SourceManager;
+import org.taboard.filter.ContactFilterable;
 import org.taboard.filter.FilterableFragment;
-import org.taboard.source.git.ContactFilterable;
 
 import android.app.ListFragment;
 import android.os.AsyncTask;

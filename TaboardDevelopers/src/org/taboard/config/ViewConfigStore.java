@@ -18,23 +18,23 @@ import android.util.Log;
 public class ViewConfigStore {
 	private final static String PROJECT1 = "fdiotalevi/taboard";
 	private final static String PROJECT2 = "openintents/aainterfaces";
-	
+
 	private final static String VIEW_CONFIGURATTION = "VIEW_CONFIGURATION_KEY";
 	private final static String TABOARD_PREFERENCES = "TABOARD_CONFIGURATION_KEY";
 	private final static String TAG = "ViewConfigStore";
 
-	
-	public static ViewConfig loadDefault(){
+	public static ViewConfig loadDefault() {
 
-		ArrayList<SourceConfig> mSources = new ArrayList<SourceConfig>();
-		mSources.add(new GitSourceConfig(PROJECT1, "Taboard"));
-		mSources.add(new GitSourceConfig(PROJECT2, "Open Android Apps"));
-		mSources.add(new GoogleCodeIssueSourceConfig(
+		ArrayList<SourceConfig> configs = new ArrayList<SourceConfig>();
+		configs.add(new GitSourceConfig(PROJECT1, "Taboard"));
+		configs.add(new GitSourceConfig(PROJECT2, "Open Android Apps"));
+		configs.add(new GoogleCodeIssueSourceConfig(
 				"http://code.google.com/p/openintents/issues/csv", "OpenIntent"));
-		mSources.add(new JenkinsFeedSourceConfig("http://ci.jenkins-ci.org/rssLatest", "Jenkins CI"));
-				mSources.add(new ContactsSourceConfig(null));
-		mSources.add(new GoogleSourceConfig(null));
-		mSources.add(new ChartsSourceConfig("TestChart", new String[] {
+		configs.add(new JenkinsFeedSourceConfig(
+				"http://ci.jenkins-ci.org/rssLatest", "Jenkins CI"));
+		configs.add(new ContactsSourceConfig(null));
+		configs.add(new GoogleSourceConfig(null));
+		configs.add(new ChartsSourceConfig("TestChart", new String[] {
 				"Build Types", "number of builds per type" }, new String[] {
 				"Successful Builds", "Failed Builds", "Cocktail Builds" },
 				new double[] { 300d, 100d, 200d }));
@@ -42,32 +42,37 @@ public class ViewConfigStore {
 		ViewConfig viewConfig = new ViewConfig();
 		viewConfig.numCols = 2;
 		viewConfig.numRows = 2;
+		viewConfig.configs = configs;
 		return viewConfig;
 	}
-	
-	public static ViewConfig readViewConfig(Context context){
-		SharedPreferences prefs = context.getSharedPreferences(TABOARD_PREFERENCES, Context.MODE_PRIVATE);			
+
+	public static ViewConfig readViewConfig(Context context) {
+		SharedPreferences prefs = context.getSharedPreferences(
+				TABOARD_PREFERENCES, Context.MODE_PRIVATE);
 		if (prefs.contains(VIEW_CONFIGURATTION))
 			try {
-				return (ViewConfig) ObjectSerializer.deserialize(prefs.getString(VIEW_CONFIGURATTION, ObjectSerializer.serialize(new ViewConfig())));
+				return (ViewConfig) ObjectSerializer.deserialize(prefs
+						.getString(VIEW_CONFIGURATTION,
+								ObjectSerializer.serialize(new ViewConfig())));
 			} catch (IOException e) {
-				Log.e(TAG, "Cannot deserialize configurations", e);				
-				return new ViewConfig();				
+				Log.e(TAG, "Cannot deserialize configurations", e);
+				return new ViewConfig();
 			}
 		else
 			return new ViewConfig();
 	}
-	
-	public static void storeViewConfig(ViewConfig vc, Context context){
-		SharedPreferences prefs = context.getSharedPreferences(TABOARD_PREFERENCES, Context.MODE_PRIVATE);
+
+	public static void storeViewConfig(ViewConfig vc, Context context) {
+		SharedPreferences prefs = context.getSharedPreferences(
+				TABOARD_PREFERENCES, Context.MODE_PRIVATE);
 		Editor editor = prefs.edit();
 		try {
-			editor.putString(VIEW_CONFIGURATTION, ObjectSerializer.serialize(vc));
+			editor.putString(VIEW_CONFIGURATTION,
+					ObjectSerializer.serialize(vc));
 		} catch (IOException e) {
-			Log.e(TAG, "Cannot serialize configurations", e);			
+			Log.e(TAG, "Cannot serialize configurations", e);
 		}
 		editor.commit();
 	}
-	
-	
+
 }

@@ -15,10 +15,12 @@ import org.json.JSONObject;
 import org.taboard.R;
 import org.taboard.SourceManager;
 import org.taboard.config.RefreshableFragment;
+import org.taboard.filter.ContactFilterable;
 import org.taboard.filter.FilterableFragment;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.os.AsyncTask;
@@ -30,6 +32,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,7 +41,7 @@ public class GitCommitsFragment extends ListFragment implements
 		FilterableFragment, RefreshableFragment {
 
 	private static final String TAG = "gitcommits";
-	private GitSourceConfig mSc;
+	private GitSourceConfig mSc = new GitSourceConfig();
 	private SourceManager mSourceManager;
 	protected List<Commit> mCommits;
 	private View mContentView;
@@ -162,12 +165,20 @@ public class GitCommitsFragment extends ListFragment implements
 			View v = inflater.inflate(R.layout.gitcommits_config_dialog,
 					container, false);
 
-			EditText et = (EditText) v.findViewById(R.id.edit_github_name);
-			et.setText(getArguments().getString("name"));
+			final EditText etName = (EditText) v.findViewById(R.id.edit_github_name);
+			etName.setText(getArguments().getString("name"));
 
-			et = (EditText) v.findViewById(R.id.edit_github_project);
-			et.setText(getArguments().getString("project"));
+			final EditText etProject = (EditText) v.findViewById(R.id.edit_github_project);
+			etProject.setText(getArguments().getString("project"));
 
+			Button bt = (Button)v.findViewById(R.id.button_github_add);
+			bt.setOnClickListener(new View.OnClickListener() {
+				
+				public void onClick(View view) {
+					((SourceManager)getActivity()).addFragment(new GitSourceConfig(etProject.getText().toString(), etName.getText().toString()));
+		
+				}
+			});
 			return v;
 		}
 
