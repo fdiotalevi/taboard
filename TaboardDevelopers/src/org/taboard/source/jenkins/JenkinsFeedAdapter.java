@@ -2,9 +2,8 @@ package org.taboard.source.jenkins;
 
 import java.util.List;
 
-import org.taboard.ColorScheme;
-import org.taboard.R;
-import org.taboard.source.googlecode.Issue;
+import org.taboard.app.developers.R;
+import org.taboard.base.ColorScheme;
 
 import android.content.Context;
 import android.view.View;

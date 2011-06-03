@@ -1,4 +1,4 @@
-package org.taboard;
+package org.taboard.base;
 
 import android.graphics.Color;
 

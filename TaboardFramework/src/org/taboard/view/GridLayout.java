@@ -16,7 +16,7 @@
 
 package org.taboard.view;
 
-import org.taboard.R;
+import org.taboard.base.R;
 
 import android.content.Context;
 import android.content.res.TypedArray;

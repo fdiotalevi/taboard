@@ -12,15 +12,14 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.taboard.R;
-import org.taboard.SourceManager;
+import org.taboard.app.developers.R;
+import org.taboard.base.SourceManager;
 import org.taboard.config.RefreshableFragment;
 import org.taboard.filter.ContactFilterable;
 import org.taboard.filter.FilterableFragment;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.os.AsyncTask;

@@ -1,16 +1,12 @@
-package org.taboard;
+package org.taboard.base;
 
+import org.taboard.base.R;
 import org.taboard.config.RefreshableFragment;
 import org.taboard.config.SourceConfig;
 import org.taboard.config.ViewConfig;
 import org.taboard.config.ViewConfigStore;
-import org.taboard.filter.FilterableSource;
 import org.taboard.filter.FilterableFragment;
-import org.taboard.source.charts.ChartsSourceConfig;
-import org.taboard.source.contacts.ContactsSourceConfig;
-import org.taboard.source.git.GitSourceConfig;
-import org.taboard.source.google.GoogleSourceConfig;
-import org.taboard.source.googlecode.GoogleCodeIssueSourceConfig;
+import org.taboard.filter.FilterableSource;
 import org.taboard.view.AboutDialogFragment;
 import org.taboard.view.GridLayout;
 import org.taboard.view.SourceChooserDialogFragment;
@@ -29,14 +25,7 @@ import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 
-public class Main extends Activity implements SourceManager {
-
-	// also check arrays.xml for labels
-	private static final Class[] SOURCE_CONFIGS = new Class[] {
-			GitSourceConfig.class, //
-			GoogleCodeIssueSourceConfig.class, //
-			ContactsSourceConfig.class, //
-			ChartsSourceConfig.class, GoogleSourceConfig.class };
+public abstract class DashBoardActivity extends Activity implements SourceManager {
 
 	private final Handler mHandler = new Handler();
 	
@@ -62,7 +51,12 @@ public class Main extends Activity implements SourceManager {
 		bar.setDisplayShowTitleEnabled(true);
 		bar.setDisplayShowHomeEnabled(true);
 
-		mViewConfig = ViewConfigStore.loadDefault();
+		ViewConfig vc = ViewConfigStore.readViewConfig(this);
+		if (vc == null){
+			vc = loadDefaultViewConfig();
+		}
+		setViewConfig(vc);
+		
 		
 		addFragments();
 	}
@@ -101,7 +95,7 @@ public class Main extends Activity implements SourceManager {
 
 				mHandler.postDelayed(new Runnable() {
 					public void run() {
-						Main.this.doRefresh();
+						DashBoardActivity.this.doRefresh();
 						refresh.setActionView(null);
 					}
 				}, 1000);
@@ -182,10 +176,34 @@ public class Main extends Activity implements SourceManager {
 			setLayout(3, 3);
 			item.setChecked(true);
 			return true;
+			
+		case R.id.menu_load_vc:
+			ViewConfig vc = ViewConfigStore.readViewConfig(this);
+			if (vc == null){
+				vc = loadDefaultViewConfig();
+			}
+			setViewConfig(vc);
+			
+			return true;
+		case R.id.menu_store_vc:
+			
+			ViewConfigStore.storeViewConfig(getViewConfig(), this);
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
+
+	private void setViewConfig(ViewConfig vc) {
+		mViewConfig = vc;						
+	}
+
+	private ViewConfig getViewConfig() {
+		return mViewConfig;
+	}
+	
+
+	public abstract ViewConfig loadDefaultViewConfig();
 
 	private void setLayout(int rows, int columns) {
 		GridLayout gl = (GridLayout) findViewById(R.id.taboard);
@@ -276,7 +294,7 @@ public class Main extends Activity implements SourceManager {
 		FragmentTransaction t = getFragmentManager().beginTransaction();
 		SourceConfig sc;
 		try {
-			sc = (SourceConfig) SOURCE_CONFIGS[arrayIndex].newInstance();
+			sc = getSourceConfigsClasses()[arrayIndex].newInstance();
 			addFragment(t, sc);
 			t.commit();
 		} catch (InstantiationException e) {
@@ -288,4 +306,10 @@ public class Main extends Activity implements SourceManager {
 		}
 
 	}
+	
+	
+	public abstract Class<SourceConfig<? extends Fragment>>[] getSourceConfigsClasses();
+	
+	public abstract int getArrayLabelSourceResourceId();
+	
 }

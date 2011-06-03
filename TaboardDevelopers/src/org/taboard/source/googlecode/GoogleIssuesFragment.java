@@ -10,8 +10,8 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.taboard.R;
-import org.taboard.SourceManager;
+import org.taboard.app.developers.R;
+import org.taboard.base.SourceManager;
 import org.taboard.filter.ContactFilterable;
 import org.taboard.filter.FilterableFragment;
 

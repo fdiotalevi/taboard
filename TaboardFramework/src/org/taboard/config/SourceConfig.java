@@ -2,7 +2,7 @@ package org.taboard.config;
 
 import java.io.Serializable;
 
-import org.taboard.SourceManager;
+import org.taboard.base.SourceManager;
 
 import android.app.Activity;
 import android.app.Fragment;

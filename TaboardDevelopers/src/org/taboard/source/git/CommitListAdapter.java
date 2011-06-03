@@ -2,11 +2,10 @@ package org.taboard.source.git;
 
 import java.util.List;
 
-import org.taboard.ColorScheme;
-import org.taboard.R;
+import org.taboard.app.developers.R;
+import org.taboard.base.ColorScheme;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;

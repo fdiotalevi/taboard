@@ -1,23 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <string name="app_name">taboard</string>
-    <string name="action_label_search">Search</string>
-    <string name="action_label_refresh">Refresh</string>
-    <string name="action_label_add_source">Add source</string>
-    <string name="action_label_about">About</string>
-    <string name="about_dialog_title">About</string>
-    <string name="source_chooser_dialog_title">Choose Source</string>
+    <string name="app_name">Taboard for Developers</string>
     <string name="git_hub_config_dialog_title">Configure github view</string>
     <string name="label_github_project">github project (username / project):</string>
     <string name="label_github_name">name of view</string>
-    <string name="view_selection_cab_title">View selection</string>
-    <string name="edit">Edit</string>
-    <string name="delete">Delete</string>
-    <string name="action_label_layout">Layout</string>
-    <string name="action_label_layout_2x2">2x2</string>
-    <string name="action_label_layout_3x2">3x2</string>
-    <string name="action_label_layout_2x3">2x3</string>
-    <string name="action_label_layout_3x3">3x3</string>
     <string name="source_github_commits">Git Hub Commits</string>
     <string name="source_contacts">Contacts</string>
     <string name="source_google_code_issues">Google Code Issues</string>

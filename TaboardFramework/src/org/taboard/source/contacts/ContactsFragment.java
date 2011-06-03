@@ -3,7 +3,7 @@
  */
 package org.taboard.source.contacts;
 
-import org.taboard.R;
+import org.taboard.base.R;
 import org.taboard.filter.FilterableFragment;
 
 import android.app.Fragment;

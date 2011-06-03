@@ -3,7 +3,7 @@
  */
 package org.taboard.source.google;
 
-import org.taboard.SourceManager;
+import org.taboard.base.SourceManager;
 import org.taboard.config.SourceConfig;
 import org.taboard.source.git.GitCommitsFragment;
 

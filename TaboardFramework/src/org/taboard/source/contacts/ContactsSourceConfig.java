@@ -3,17 +3,15 @@
  */
 package org.taboard.source.contacts;
 
-import org.taboard.SourceManager;
+import org.taboard.base.SourceManager;
 import org.taboard.config.SourceConfig;
 import org.taboard.filter.ContactFilterable;
-import org.taboard.source.google.GoogleFragment;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.ContactsContract.CommonDataKinds;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.Contacts;
 

@@ -1,8 +1,9 @@
-package org.taboard.config;
+package org.taboard.app.developers;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
+import org.taboard.config.SourceConfig;
+import org.taboard.config.ViewConfig;
 import org.taboard.source.charts.ChartsSourceConfig;
 import org.taboard.source.contacts.ContactsSourceConfig;
 import org.taboard.source.git.GitSourceConfig;
@@ -10,18 +11,9 @@ import org.taboard.source.google.GoogleSourceConfig;
 import org.taboard.source.googlecode.GoogleCodeIssueSourceConfig;
 import org.taboard.source.jenkins.JenkinsFeedSourceConfig;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.util.Log;
-
 public class ViewConfigStore {
 	private final static String PROJECT1 = "fdiotalevi/taboard";
 	private final static String PROJECT2 = "openintents/aainterfaces";
-
-	private final static String VIEW_CONFIGURATTION = "VIEW_CONFIGURATION_KEY";
-	private final static String TABOARD_PREFERENCES = "TABOARD_CONFIGURATION_KEY";
-	private final static String TAG = "ViewConfigStore";
 
 	public static ViewConfig loadDefault() {
 
@@ -45,34 +37,4 @@ public class ViewConfigStore {
 		viewConfig.configs = configs;
 		return viewConfig;
 	}
-
-	public static ViewConfig readViewConfig(Context context) {
-		SharedPreferences prefs = context.getSharedPreferences(
-				TABOARD_PREFERENCES, Context.MODE_PRIVATE);
-		if (prefs.contains(VIEW_CONFIGURATTION))
-			try {
-				return (ViewConfig) ObjectSerializer.deserialize(prefs
-						.getString(VIEW_CONFIGURATTION,
-								ObjectSerializer.serialize(new ViewConfig())));
-			} catch (IOException e) {
-				Log.e(TAG, "Cannot deserialize configurations", e);
-				return new ViewConfig();
-			}
-		else
-			return new ViewConfig();
-	}
-
-	public static void storeViewConfig(ViewConfig vc, Context context) {
-		SharedPreferences prefs = context.getSharedPreferences(
-				TABOARD_PREFERENCES, Context.MODE_PRIVATE);
-		Editor editor = prefs.edit();
-		try {
-			editor.putString(VIEW_CONFIGURATTION,
-					ObjectSerializer.serialize(vc));
-		} catch (IOException e) {
-			Log.e(TAG, "Cannot serialize configurations", e);
-		}
-		editor.commit();
-	}
-
 }

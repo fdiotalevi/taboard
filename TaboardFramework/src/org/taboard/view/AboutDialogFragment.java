@@ -1,5 +1,7 @@
 package org.taboard.view;
 
+import org.taboard.base.R;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -22,7 +24,7 @@ public class AboutDialogFragment extends DialogFragment {
         String text = getArguments().getString("text");
 
         return new AlertDialog.Builder(getActivity())
-                .setTitle(org.taboard.R.string.about_dialog_title)
+                .setTitle(R.string.about_dialog_title)
                 .setMessage(text)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {

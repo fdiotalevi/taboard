@@ -1,7 +1,7 @@
 package org.taboard.view;
 
-import org.taboard.Main;
-import org.taboard.R;
+import org.taboard.base.DashBoardActivity;
+import org.taboard.base.R;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,12 +18,12 @@ public class SourceChooserDialogFragment extends DialogFragment {
 		// String text = getArguments().getString("text");
 
 		return new AlertDialog.Builder(getActivity())
-				.setTitle(org.taboard.R.string.source_chooser_dialog_title)
-				.setItems(R.array.arraylabels_source, new OnClickListener() {
+				.setTitle(R.string.source_chooser_dialog_title)
+				.setItems(((DashBoardActivity)getActivity()).getArrayLabelSourceResourceId(), new OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int whichButton) {
 						Log.v("D", "" + whichButton);
-						((Main) getActivity()).addSource(whichButton);
+						((DashBoardActivity) getActivity()).addSource(whichButton);
 					}
 				}).create();
 	}

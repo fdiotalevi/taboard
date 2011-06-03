@@ -4,16 +4,14 @@
 package org.taboard.source.contacts;
 
 import java.io.InputStream;
-import java.net.URI;
 
-import org.taboard.R;
+import org.taboard.base.R;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.BaseColumns;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.text.format.DateFormat;
@@ -23,7 +21,6 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.QuickContactBadge;
 import android.widget.TextView;
 

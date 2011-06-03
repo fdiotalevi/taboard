@@ -1,6 +1,6 @@
 package org.taboard.source.jenkins;
 
-import org.taboard.SourceManager;
+import org.taboard.base.SourceManager;
 import org.taboard.config.SourceConfig;
 
 import android.app.Activity;
